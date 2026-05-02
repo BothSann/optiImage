@@ -1,6 +1,4 @@
-def main():
-    print("Hello from main!")
-
+from optiimage.cli import run
 
 if __name__ == "__main__":
-    main()
+    run()
