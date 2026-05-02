@@ -16,3 +16,9 @@ wheels/
 # Guide
 guide/
 CLAUDE.md
+
+# Ignore images inside input/output, but keep the folders
+input/*
+!input/.gitkeep
+output/*
+!output/.gitkeep

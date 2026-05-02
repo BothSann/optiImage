@@ -23,6 +23,7 @@ def _process_file(
     print(
         f"{input_path.name} -> {output_path.name} ({original_kb:.0f} KB -> {output_kb:.0f} KB)"
     )
+    input_path.unlink()
 
 
 def run() -> None:
@@ -30,7 +31,12 @@ def run() -> None:
         prog="optiimage",
         description="Convert and compress images (supports HEIC, JPEG, PNG, WebP)",
     )
-    parser.add_argument("input", help="Image file or folder to convert")
+    parser.add_argument(
+        "input",
+        nargs="?",
+        default=str(config.INPUT_DIR),
+        help="Image file or folder (default: input/)",
+    )
     parser.add_argument(
         "-f",
         "--format",
@@ -48,16 +54,16 @@ def run() -> None:
     parser.add_argument(
         "-o",
         "--output",
-        help="Output folder (default: same folder as input)",
+        default=str(config.OUTPUT_DIR),
+        help="Output folder (default: output/)",
     )
 
     args = parser.parse_args()
 
     input_path = Path(args.input)
-    output_dir = Path(args.output) if args.output else None
+    output_dir = Path(args.output)
 
-    if output_dir:
-        output_dir.mkdir(parents=True, exist_ok=True)
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     if input_path.is_dir():
         images = [
